@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML5换肤方案Demo</title>
+  <style>
+    :root {
+      /* 默认主题变量 */
+      --primary-color: #4a6cf7;
+      --secondary-color: #69b1ff;
+      --background-color: #ffffff;
+      --text-color: #333333;
+      --card-bg-color: #f5f5f5;
+      --button-bg-color: #4a6cf7;
+      --button-text-color: #ffffff;
+      --input-bg-color: #ffffff;
+      --input-border-color: #dddddd;
+      --header-bg-color: linear-gradient(135deg, #4a6cf7, #69b1ff);
+      --header-text-color: #ffffff;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --transition-speed: 0.3s;
+    }
+    /* 深色主题 */
+    [data-theme='dark'] {
+      --primary-color: #1e213a;
+      --secondary-color: #3c405a;
+      --background-color: #121420;
+      --text-color: #e0e0e0;
+      --card-bg-color: #1e213a;
+      --button-bg-color: #6e78e8;
+      --button-text-color: #ffffff;
+      --input-bg-color: #3c405a;
+      --input-border-color: #555555;
+      --header-bg-color: linear-gradient(135deg, #1e213a, #3c405a);
+      --shadow-color: rgba(0, 0, 0, 0.3);
+    }
+    /* 蓝色主题 */
+    [data-theme='blue'] {
+      --primary-color: #0066cc;
+      --secondary-color: #3399ff;
+      --background-color: #f0f7ff;
+      --text-color: #003366;
+      --card-bg-color: #e6f2ff;
+      --button-bg-color: #0066cc;
+      --header-bg-color: linear-gradient(135deg, #0066cc, #3399ff);
+    }
+    /* 绿色主题 */
+    [data-theme='green'] {
+      --primary-color: #008040;
+      --secondary-color: #33cc99;
+      --background-color: #f0fff4;
+      --text-color: #00331a;
+      --card-bg-color: #e6ffe6;
+      --button-bg-color: #008040;
+      --header-bg-color: linear-gradient(135deg, #008040, #33cc99);
+    }
+    /* 紫色主题 */
+    [data-theme='purple'] {
+      --primary-color: #663399;
+      --secondary-color: #9966cc;
+      --background-color: #f9f0ff;
+      --text-color: #330066;
+      --card-bg-color: #f0e0ff;
+      --button-bg-color: #663399;
+      --header-bg-color: linear-gradient(135deg, #663399, #9966cc);
+    }
+    /* 基础样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    header {
+      background: var(--header-bg-color);
+      color: var(--header-text-color);
+      padding: 2rem 0;
+      text-align: center;
+      border-radius: 0 0 20px 20px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
+    header h1 {
+      margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+    }
+    .theme-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background-color: var(--card-bg-color);
+      border-radius: 10px;
+      box-shadow: 0 2px 8px var(--shadow-color);
+    }
+    .theme-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 20px;
+      background-color: var(--button-bg-color);
+      color: var(--button-text-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    .theme-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .theme-btn.active {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 2px white, 0 0 0 4px var(--button-bg-color);
+    }
+    .demo-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background-color: var(--card-bg-color);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
+    .card h2 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    .demo-btn {
+      margin-top: 1rem;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--button-bg-color);
+      color: var(--button-text-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .demo-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+    input[type='text'] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 1rem;
+      border: 1px solid var(--input-border-color);
+      border-radius: 5px;
+      background-color: var(--input-bg-color);
+      color: var(--text-color);
+    }
+    input[type='text']::placeholder {
+      color: var(--text-color);
+      opacity: 0.6;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem 0;
+      margin-top: 2rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>换肤方案演示</h1>
+    <p>选择下方主题切换皮肤</p>
+  </header>
+  <main>
+    <div class="theme-selector">
+      <button class="theme-btn" data-theme="default">默认主题</button>
+      <button class="theme-btn" data-theme="dark">深色主题</button>
+      <button class="theme-btn" data-theme="blue">蓝色主题</button>
+      <button class="theme-btn" data-theme="green">绿色主题</button>
+      <button class="theme-btn" data-theme="purple">紫色主题</button>
+    </div>
+    <div class="demo-content">
+      <div class="card">
+        <h2>演示卡片</h2>
+        <p>这是一个演示卡片，用于展示换肤效果。</p>
+        <button class="demo-btn">示例按钮</button>
+      </div>
+      <div class="card">
+        <h2>交互元素</h2>
+        <p>按钮、输入框等交互元素也会随主题变化。</p>
+        <input type="text" placeholder="输入框示例">
+      </div>
+    </div>
+  </main>
+  <footer>
+    <p>HTML5换肤方案Demo</p>
+  </footer>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // 获取所有主题按钮
+    const themeButtons = document.querySelectorAll('.theme-btn')
+    const rootElement = document.documentElement
+
+    // 从localStorage加载保存的主题，默认为'default'
+    const savedTheme = localStorage.getItem('selectedTheme') || 'default'
+    applyTheme(savedTheme)
+
+    // 为每个主题按钮添加点击事件监听器
+    themeButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const theme = this.getAttribute('data-theme')
+        applyTheme(theme)
+
+        // 保存主题到localStorage
+        localStorage.setItem('selectedTheme', theme)
+      })
+    })
+
+    // 应用主题的函数
+    function applyTheme(theme) {
+      // 设置根元素的data-theme属性
+      rootElement.setAttribute('data-theme', theme)
+
+      // 更新按钮状态
+      updateActiveButton(theme)
+
+      // 添加主题切换动画效果
+      document.body.classList.add('theme-transition')
+      setTimeout(() => {
+        document.body.classList.remove('theme-transition')
+      }, 300)
+    }
+
+    // 更新活动按钮状态
+    function updateActiveButton(theme) {
+      themeButtons.forEach(button => {
+        if (button.getAttribute('data-theme') === theme) {
+          button.classList.add('active')
+        } else {
+          button.classList.remove('active')
+        }
+      })
+    }
+
+    // 添加CSS动画样式
+    const style = document.createElement('style')
+    style.textContent = `
+        .theme-transition {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    `
+    document.head.appendChild(style)
+  })
+</script>
+</body>
+</html>
