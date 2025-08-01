@@ -1,2 +1,2 @@
-# ChangeSkinDemo
-H5换肤
+# ChangeSkin
+Html5换肤方案
